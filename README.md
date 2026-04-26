@@ -1,3 +1,9 @@
+# 🛡️ ETHICAL ALIGNMENT API (EA-API)
+### THE SOVEREIGN ALIGNMENT PROTOCOL (v1.0)
+
+## 💰 COMMERCIAL USE LICENSE
+**Click here to authorize your Enterprise and receive your API Key:** [👉 PURCHASE ENTERPRISE LICENSE](INSERT_YOUR_STRIPE_LINK_HERE)
+
 # Ethical-Alignment-API
 import json
 
