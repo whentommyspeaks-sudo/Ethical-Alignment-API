@@ -74,7 +74,7 @@ class StandaloneRevenueEngine:
             "tier": tier,
             "monthly_charge": self.pricing[tier]["monthly"],
             "invoice_generated": invoice["invoice_id"],
-            "invoice_amount": invoice["total_due"],
+            "invoice_amount": invoice["amount_due"],
         }
 
     def generate_invoice(self, customer_id: str) -> Dict:
