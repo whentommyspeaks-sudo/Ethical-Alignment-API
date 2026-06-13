@@ -1,4 +1,4 @@
-# Ethical Alignment API (EA-API)
+# Ethical Alignment API (EA-API) CREATED BY RICHARD T. WILLIAMS all rights reserved.
 
 > **A Logic-Based Conscience for AI Systems** — Middleware that enforces ethical guardrails before AI execution.
 
@@ -288,4 +288,4 @@ Imagine a world where:
 
 ---
 
-**Built with integrity. For humanity.**
+**Built with integrity. For humanity. the Red Letters Save Again, Created by RichardT. Williams, all rights reserved.**
