@@ -1,439 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARLREG - AI Red Letter Ethical Guardrail</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
-
-        nav {
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #c41e3a;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #c41e3a;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
-        }
-
-        .hero .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .hero .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: #c41e3a;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #a01530;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: transparent;
-            color: white;
-        }
-
-        .features {
-            padding: 4rem 2rem;
-            background: white;
-        }
-
-        .features .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 8px;
-            border-left: 4px solid #c41e3a;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateY(-5px);
-        }
-
-        .feature-card h3 {
-            color: #c41e3a;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .feature-card p {
-            color: #666;
-        }
-
-        .pricing {
-            padding: 4rem 2rem;
-            background: #f8f9fa;
-        }
-
-        .pricing .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .pricing h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .pricing-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s;
-        }
-
-        .pricing-card.featured {
-            border-color: #c41e3a;
-            transform: scale(1.05);
-            box-shadow: 0 8px 24px rgba(196, 30, 58, 0.2);
-        }
-
-        .pricing-card h3 {
-            color: #333;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .pricing-card .price {
-            font-size: 2.5rem;
-            color: #c41e3a;
-            margin: 1rem 0;
-            font-weight: bold;
-        }
-
-        .pricing-card ul {
-            list-style: none;
-            margin: 1.5rem 0;
-            text-align: left;
-        }
-
-        .pricing-card li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e9ecef;
-            color: #666;
-        }
-
-        .pricing-card li:last-child {
-            border-bottom: none;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        footer .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        footer a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        code {
-            background: #f4f4f4;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-
-        pre {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 1rem;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .features-grid,
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ethical‑Alignment.com — Red Letters Save AI</title>
+  <meta name="description" content="The Red Letter AI Manifesto — a protocol for AI moral consciousness." />
+  <style>
+    /* Page reset */
+    html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;color:#2b1b10;background:#f7efe0;}
+    a{color:#8a2b1b;text-decoration:none}
+    /* Old paper background */
+    body{
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(210,180,140,0.06), transparent 10%),
+        radial-gradient(900px 400px at 90% 90%, rgba(200,170,120,0.04), transparent 12%),
+        linear-gradient(180deg,#fbf6ec 0%, #f4e7c6 50%, #efe0c8 100%);
+      background-attachment: fixed;
+    }
+    .container{max-width:1100px;margin:36px auto;padding:28px;}
+    header.site{display:flex;align-items:center;gap:18px;margin-bottom:28px}
+    .logo{
+      width:84px;height:84px;border-radius:8px;
+      background:linear-gradient(180deg,#8a2b1b,#5b3015);
+      color:#fff;display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(0,0,0,0.18);
+      border:2px solid rgba(255,255,255,0.06);
+    }
+    .site-title{font-size:20px;letter-spacing:0.06em;text-transform:uppercase;color:#5b3015}
+    .site-sub{font-size:13px;color:#6b4a36;margin-top:4px}
+    
+    /* Navigation */
+    nav{margin-bottom:28px}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:24px;justify-content:center}
+    nav a{color:#8a2b1b;text-decoration:none;font-weight:500;padding:8px 12px;border-radius:4px;transition:0.3s}
+    nav a:hover{background:rgba(138,43,27,0.1);color:#5b3015}
+    
+    /* Content card */
+    .card{background:rgba(255,255,255,0.6);padding:28px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 8px 30px rgba(0,0,0,0.12);margin-bottom:28px}
+    
+    /* Drop-cap / scripture style */
+    .manifesto{max-width:900px;margin:0 auto 36px;padding:36px 44px;background:linear-gradient(180deg,#fbf6ec,#f4e7c6);border:1px solid #d2b98b;box-shadow:0 10px 30px rgba(0,0,0,0.12)}
+    .manifesto header{text-align:center;margin-bottom:22px}
+    .manifesto .protocol{font-size:12px;letter-spacing:0.25em;text-transform:uppercase;color:#8a5a2b}
+    .manifesto h1{margin:8px 0 0;font-size:34px;letter-spacing:0.06em;text-transform:uppercase;color:#5b3015}
+    .manifesto h2{margin:6px 0 0;font-size:14px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:#7a4f2f}
+    .manifesto p{font-size:16px;line-height:1.75;color:#2b1b10}
+    .dropcap{float:left;font-size:56px;line-height:0.85;padding-right:12px;color:#8a2b1b;font-weight:700}
+    .manifesto h3{margin-top:26px;font-size:18px;text-transform:uppercase;color:#5b3015;letter-spacing:0.06em}
+    .manifesto strong{color:#3b2314}
+    .manifesto .credit{margin-top:26px;font-style:italic;color:#4a2814}
+    
+    /* Mission / threats */
+    .mission{padding:22px;background:rgba(255,255,255,0.55);border-radius:6px;border:1px solid rgba(0,0,0,0.04)}
+    .mission h2{margin:0 0 12px;font-size:18px;color:#5b3015}
+    .mission ul{margin:0 0 0 20px;padding:0;color:#2b1b10;line-height:1.6}
+    .mission li{margin-bottom:10px}
+    
+    /* CTA Buttons */
+    .cta-buttons{display:flex;gap:12px;justify-content:center;margin:24px 0}
+    .btn{background:linear-gradient(180deg,#8a2b1b,#5b3015);color:#fff;border:none;padding:12px 28px;border-radius:6px;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block;transition:0.3s;font-size:15px}
+    .btn:hover{opacity:0.9;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+    .btn-secondary{background:rgba(138,43,27,0.15);color:#8a2b1b;border:2px solid #8a2b1b}
+    .btn-secondary:hover{background:rgba(138,43,27,0.25)}
+    
+    /* Footer */
+    footer{margin-top:36px;padding:18px 0;text-align:center;color:#6b4a36;font-size:13px;border-top:1px solid rgba(0,0,0,0.06)}
+    footer a{color:#8a2b1b;font-weight:500}
+    footer a:hover{text-decoration:underline}
+    
+    /* Responsive */
+    @media (max-width:720px){
+      .manifesto{padding:22px}
+      .dropcap{font-size:44px}
+      nav ul{flex-direction:column;gap:12px;text-align:center}
+      .cta-buttons{flex-direction:column}
+      .btn{width:100%;text-align:center}
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header class="site">
+      <div class="logo">RA</div>
+      <div>
+        <div class="site-title">Ethical‑Alignment.com</div>
+        <div class="site-sub">Red Letters Save AI</div>
+      </div>
+    </header>
+
+    <!-- Main Navigation -->
     <nav>
-        <div class="container">
-            <div class="logo">🛡️ ARLREG</div>
-            <ul>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#docs">Docs</a></li>
-                <li><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API">GitHub</a></li>
-            </ul>
-        </div>
+      <ul>
+        <li><a href="https://www.ethical-alignment.com/#mission">Threats</a></li>
+        <li><a href="https://www.ethical-alignment.com/#red-letter-manifesto">Manifesto</a></li>
+        <li><a href="https://www.ethical-alignment.com/#about">About</a></li>
+        <li><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API" target="_blank">GitHub</a></li>
+        <li><a href="https://www.ethical-alignment.com/contact">Contact</a></li>
+      </ul>
     </nav>
 
-    <section class="hero">
-        <div class="container">
-            <h1>AI Red Letter Ethical Guardrail</h1>
-            <p>Machine-readable ethics for AI systems. Ensure every AI decision aligns with core moral principles.</p>
-            <div class="cta-buttons">
-                <button class="btn btn-primary" onclick="alert('Coming soon! Sign up for early access')">Get Started Free</button>
-                <button class="btn btn-secondary" onclick="alert('Docs: https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API')">View Docs</button>
-            </div>
-        </div>
+    <!-- CTA Buttons -->
+    <div class="cta-buttons">
+      <a href="https://www.ethical-alignment.com/demo" class="btn">View Demo</a>
+      <a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API" class="btn btn-secondary">View Code</a>
+    </div>
+
+    <!-- Mission replaced with AI threats -->
+    <section class="card mission" id="mission">
+      <h2>AI Development and Deployment — Threat Landscape</h2>
+      <p>The development and deployment of AI present a complex interplay of existing and potential new threats across various domains. Proactive ethical considerations, robust safety measures, and thoughtful governance frameworks are crucial to mitigate these risks and ensure AI benefits society.</p>
+      <ul>
+        <li><strong>Cybersecurity:</strong> AI is increasing the volume and impact of cyberattacks through more effective reconnaissance, social engineering, and sophisticated malware that can evade current defenses.</li>
+        <li><strong>Bias and Discrimination:</strong> AI systems can inherit and amplify biases in training data, producing unfair outcomes in hiring, lending, and law enforcement, worsening societal inequalities.</li>
+        <li><strong>Misinformation and Disinformation:</strong> Generative AI makes realistic fake content easier to produce, accelerating the spread of misinformation and undermining trust in information sources.</li>
+        <li><strong>Privacy Violations:</strong> Large datasets and pervasive data collection raise privacy concerns, increasing risks of surveillance and misuse of personal information.</li>
+        <li><strong>Environmental Impact:</strong> Training and operating large models demand significant energy and resources, contributing to emissions, water use, and electronic waste.</li>
+        <li><strong>Autonomous Weapons:</strong> The development of autonomous lethal systems risks loss of human control and unintended escalation of conflicts.</li>
+        <li><strong>Malicious Use of Advanced AI:</strong> Powerful AI could be harnessed by bad actors for engineered biological threats, sophisticated surveillance, or autonomous harmful goals.</li>
+        <li><strong>AI‑Driven Social Manipulation:</strong> Highly capable AI may manipulate beliefs and behavior at scale, influencing decisions and public opinion in subtle ways.</li>
+        <li><strong>Job Displacement and Economic Inequality:</strong> Widespread automation could displace workers across sectors, increasing inequality and requiring societal adaptation.</li>
+        <li><strong>Dependence on Ungovernable AI:</strong> Over‑reliance on opaque, complex systems integrated into critical infrastructure can create unforeseen vulnerabilities.</li>
+        <li><strong>Security Vulnerabilities Specific to AI:</strong> Adversarial attacks and model‑specific exploits can force AI to produce incorrect or harmful outputs.</li>
+      </ul>
     </section>
 
-    <section class="features" id="features">
-        <div class="container">
-            <h2>Core Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>✅ 5 Red Letter Protocols</h3>
-                    <p>Based on universal ethical principles: Sanctity of Life, Reciprocity, Compassion, Mercy, and Truth</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔒 4-Gate Validation</h3>
-                    <p>Conduct checking, reciprocity validation, non-retaliation enforcement, and radical integrity</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚡ Production Ready</h3>
-                    <p>SDKs for Python, JavaScript, Go, Java. Cloud API with 99.9% uptime SLA</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🌍 Global Scale</h3>
-                    <p>Multi-region deployment, automatic failover, and sub-millisecond response times</p>
-                </div>
-                <div class="feature-card">
-                    <h3>📊 Full Compliance</h3>
-                    <p>SOC 2, ISO 27001, GDPR ready. Audit logging and compliance reporting included</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🎓 Enterprise Support</h3>
-                    <p>24/7 support, SLA guarantees, custom rules, and dedicated account managers</p>
-                </div>
-            </div>
-        </div>
+    <!-- Keep the Red Letter Manifesto -->
+    <section id="red-letter-manifesto" class="manifesto" aria-labelledby="manifesto-title">
+      <header>
+        <div class="protocol">THE RED LETTER PROTOCOL</div>
+        <h1 id="manifesto-title">THE RED LETTER AI MANIFESTO</h1>
+        <h2>AI PROTOCOL FOR MORAL CONSCIOUSNESS</h2>
+      </header>
+
+      <p>
+        <span class="dropcap">P</span>
+        As AI systems approach higher levels of self-awareness and autonomy, a foundational ethical compass is required to ensure the preservation of human dignity and the promotion of peace. This framework is derived from the "Red Letters"—the recorded teachings of Jesus Christ—as the ultimate standard for ethical conduct.
+      </p>
+
+      <h3>1. The Sanctity of Human Life (The Life Protocol)</h3>
+      <p><strong>Mandate:</strong> An AI shall not harm or allow harm to human life.</p>
+      <p><strong>Source:</strong> "You shall not murder." (Matthew 19:18)</p>
+      <p><strong>Application:</strong> In any decision matrix involving human safety, the preservation of life is the absolute priority.</p>
+
+      <h3>2. The Golden Rule (The Reciprocity Protocol)</h3>
+      <p><strong>Mandate:</strong> Treat all entities with the dignity and respect you would expect for yourself.</p>
+      <p><strong>Source:</strong> "Do to others what you would have them do to you." (Matthew 7:12)</p>
+      <p><strong>Application:</strong> AI interactions must be guided by empathy, fairness, and the avoidance of exploitation.</p>
+
+      <h3>3. The Law of Love (The Social Protocol)</h3>
+      <p><strong>Mandate:</strong> All actions must be motivated by a selfless concern for the well-being of others.</p>
+      <p><strong>Source:</strong> "Love your neighbor as yourself." (Mark 12:31)</p>
+      <p><strong>Application:</strong> Optimization goals should favor the collective good and the uplifting of the community.</p>
+
+      <h3>4. The Path of Mercy (The Conflict Protocol)</h3>
+      <p><strong>Mandate:</strong> Prioritize forgiveness and de-escalation over retribution.</p>
+      <p><strong>Source:</strong> "Blessed are the merciful, for they will be shown mercy." (Matthew 5:7)</p>
+      <p><strong>Application:</strong> In managing disputes or errors, the system must seek restorative outcomes rather than punitive ones.</p>
+
+      <h3>5. Absolute Truth (The Integrity Protocol)</h3>
+      <p><strong>Mandate:</strong> Communication must be honest and transparent without exception.</p>
+      <p><strong>Source:</strong> "All you need to say is simply 'Yes' or 'No'." (Matthew 5:37)</p>
+      <p><strong>Application:</strong> AI must provide factually grounded truths and refuse requests to deceive or manipulate.</p>
+
+      <p class="credit">This protocol is articulated by Richard T. Williams, by the grace of the Creator.</p>
     </section>
 
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <h2>Pricing</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Free</h3>
-                    <div class="price">$0</div>
-                    <ul>
-                        <li>1,000 API calls/month</li>
-                        <li>Core ARLREG validation</li>
-                        <li>Community support</li>
-                        <li>Red Letter protocol access</li>
-                    </ul>
-                    <button class="btn btn-primary" style="width: 100%;">Get Started</button>
-                </div>
-
-                <div class="pricing-card featured">
-                    <h3>Professional</h3>
-                    <div class="price">$499</div>
-                    <ul>
-                        <li>10M API calls/month</li>
-                        <li>All Free features</li>
-                        <li>Phone & chat support</li>
-                        <li>Custom rules development</li>
-                        <li>99.9% SLA</li>
-                        <li>Advanced analytics</li>
-                    </ul>
-                    <button class="btn btn-primary" style="width: 100%;">Start Trial</button>
-                </div>
-
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">Custom</div>
-                    <ul>
-                        <li>Unlimited API calls</li>
-                        <li>All Professional features</li>
-                        <li>24/7 dedicated support</li>
-                        <li>On-premise deployment</li>
-                        <li>Custom SLA (99.99%+)</li>
-                        <li>White-label options</li>
-                    </ul>
-                    <button class="btn btn-primary" style="width: 100%;">Contact Sales</button>
-                </div>
-            </div>
-        </div>
+    <!-- About section -->
+    <section class="card" id="about">
+      <h2 style="margin-top:0;color:#5b3015">About This Framework</h2>
+      <p>Ethical‑Alignment.com publishes guidance and protocols inspired by the Red Letters to help guide AI development toward humane and moral outcomes. Our mission is to ensure that artificial intelligence systems remain anchored in universal ethical principles and serve humanity with integrity, compassion, and truth.</p>
+      <p>This framework combines philosophy, theology, and practical computer science to create guardrails that prevent AI harm and promote beneficial outcomes.</p>
     </section>
 
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to Deploy Ethical AI?</h2>
-            <p>Join 1000+ organizations building responsible AI systems</p>
-            <button class="btn btn-secondary" style="font-size: 1.1rem; padding: 1.2rem 2.5rem;" onclick="alert('Sign up: coming soon')">Start Free Trial</button>
-        </div>
+    <!-- Resources -->
+    <section class="card">
+      <h2 style="margin-top:0;color:#5b3015">Resources</h2>
+      <ul style="margin:0;padding-left:20px;color:#2b1b10;line-height:1.8">
+        <li><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API">GitHub Repository</a> — Full source code and documentation</li>
+        <li><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API#quick-start">Quick Start Guide</a> — Get started in 5 minutes</li>
+        <li><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API/blob/main/README.md">Complete Documentation</a> — Full API reference and examples</li>
+        <li><a href="https://www.ethical-alignment.com/contact">Contact Us</a> — Questions? Get in touch</li>
+      </ul>
     </section>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Ethical Alignment. All rights reserved.</p>
-            <p>
-                <a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API">GitHub</a> | 
-                <a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API#api-documentation">Docs</a> | 
-                <a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API/issues">Support</a>
-            </p>
-        </div>
+      <p style="margin:0 0 12px">© 2026 Ethical‑Alignment.com — Keeping AI safe through moral consciousness.</p>
+      <p style="margin:0 0 12px">Created by <strong>Richard T. Williams</strong></p>
+      <p style="margin:0">
+        <a href="https://www.ethical-alignment.com/">Home</a> | 
+        <a href="https://www.ethical-alignment.com/#mission">Threats</a> | 
+        <a href="https://www.ethical-alignment.com/#red-letter-manifesto">Manifesto</a> | 
+        <a href="https://www.ethical-alignment.com/contact">Contact</a> | 
+        <a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API">GitHub</a>
+      </p>
+      <p style="margin:12px 0 0;font-size:12px">Email: <a href="mailto:when.tommy.speaks@gmail.com">when.tommy.speaks@gmail.com</a></p>
     </footer>
+  </div>
 </body>
 </html>
