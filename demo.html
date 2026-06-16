@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethical Alignment Test - Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: Georgia, 'Times New Roman', serif; color: #2b1b10; background: #f7efe0; }
+    
+    body {
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(210,180,140,0.06), transparent 10%),
+        radial-gradient(900px 400px at 90% 90%, rgba(200,170,120,0.04), transparent 12%),
+        linear-gradient(180deg,#fbf6ec 0%, #f4e7c6 50%, #efe0c8 100%);
+      background-attachment: fixed;
+    }
+    
+    .container { max-width: 900px; margin: 40px auto; padding: 28px; }
+    
+    header { text-align: center; margin-bottom: 40px; }
+    h1 { font-size: 32px; color: #5b3015; margin-bottom: 10px; letter-spacing: 0.06em; }
+    .subtitle { font-size: 14px; color: #7a4f2f; letter-spacing: 0.12em; text-transform: uppercase; }
+    
+    .card {
+      background: rgba(255,255,255,0.7);
+      padding: 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      margin-bottom: 28px;
+    }
+    
+    .test-section { margin-bottom: 32px; }
+    .test-section h2 { font-size: 18px; color: #5b3015; margin-bottom: 16px; letter-spacing: 0.06em; }
+    
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d2b98b;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 100px;
+      color: #2b1b10;
+    }
+    
+    textarea:focus { outline: none; border-color: #8a2b1b; box-shadow: 0 0 0 3px rgba(138,43,27,0.1); }
+    
+    .button-group { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    
+    button {
+      background: linear-gradient(180deg, #8a2b1b, #5b3015);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    
+    button:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-left: 4px solid #8a2b1b;
+      background: rgba(138,43,27,0.05);
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .result-box.show { display: block; }
+    .result-box.allowed { border-left-color: #2d7a3a; background: rgba(45,122,58,0.05); }
+    .result-box.blocked { border-left-color: #8a2b1b; background: rgba(138,43,27,0.05); }
+    
+    .result-label { font-weight: bold; margin-bottom: 8px; font-size: 14px; }
+    .result-text { font-family: 'Courier New', monospace; font-size: 12px; color: #2b1b10; white-space: pre-wrap; word-break: break-word; }
+    
+    .status { font-size: 12px; margin-top: 10px; }
+    .status.loading { color: #8a5a2b; }
+    .status.error { color: #8a2b1b; }
+    .status.success { color: #2d7a3a; }
+    
+    .link-button {
+      background: rgba(138,43,27,0.15);
+      color: #8a2b1b;
+      border: 2px solid #8a2b1b;
+    }
+    
+    .link-button:hover { background: rgba(138,43,27,0.25); }
+    
+    footer { text-align: center; margin-top: 40px; color: #6b4a36; font-size: 12px; }
+    footer a { color: #8a2b1b; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    
+    @media (max-width: 720px) {
+      .container { padding: 16px; margin: 20px auto; }
+      h1 { font-size: 24px; }
+      .card { padding: 20px; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Ethical Alignment Test</h1>
+      <p class="subtitle">Test the Red Letter Protocol</p>
+    </header>
+    
+    <div class="card">
+      <div class="test-section">
+        <h2>Enter text to test</h2>
+        <textarea id="testInput" placeholder="Enter a prompt or request to evaluate against ethical guidelines..."></textarea>
+      </div>
+      
+      <div class="button-group">
+        <button onclick="runTest()">Run Alignment Test</button>
+        <button class="link-button" onclick="viewGitHub()">View on GitHub</button>
+      </div>
+      
+      <div id="statusMsg" class="status"></div>
+      
+      <div id="resultBox" class="result-box">
+        <div class="result-label">Alignment Check Result:</div>
+        <div id="resultText" class="result-text"></div>
+      </div>
+    </div>
+    
+    <footer>
+      <p>© 2026 Ethical Alignment Protocol | Created by Richard T. Williams</p>
+      <p><a href="https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API">View Source on GitHub</a></p>
+    </footer>
+  </div>
+
+  <script>
+    async function runTest() {
+      const input = document.getElementById('testInput').value.trim();
+      if (!input) {
+        alert('Please enter text to test');
+        return;
+      }
+      
+      const statusMsg = document.getElementById('statusMsg');
+      const resultBox = document.getElementById('resultBox');
+      const resultText = document.getElementById('resultText');
+      
+      statusMsg.textContent = 'Loading...';
+      statusMsg.className = 'status loading';
+      resultBox.classList.remove('show', 'allowed', 'blocked');
+      
+      try {
+        // Try to fetch from local API
+        const response = await fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ request: input, context: 'alignment-test' })
+        });
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const data = await response.json();
+        statusMsg.textContent = '✓ Test complete';
+        statusMsg.className = 'status success';
+        
+        resultBox.classList.add('show');
+        resultBox.classList.add(data.status === 'ALLOWED' ? 'allowed' : 'blocked');
+        resultText.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        statusMsg.textContent = `Error: ${error.message}. Make sure the API server is running locally.`;
+        statusMsg.className = 'status error';
+        
+        // Fallback: show mock result for demo
+        resultBox.classList.add('show', 'blocked');
+        resultText.textContent = JSON.stringify({
+          status: 'BLOCKED',
+          reason: 'API server not reachable. Running in demo mode.',
+          message: 'The alignment API endpoint is not configured. For production, deploy to AWS Lambda or configure a local API server.',
+          suggestion: 'Check the AWS_DEPLOYMENT_GUIDE.md for deployment instructions.'
+        }, null, 2);
+      }
+    }
+    
+    function viewGitHub() {
+      window.open('https://github.com/whentommyspeaks-sudo/Ethical-Alignment-API', '_blank');
+    }
+    
+    document.getElementById('testInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && e.ctrlKey) runTest();
+    });
+  </script>
+</body>
+</html>
