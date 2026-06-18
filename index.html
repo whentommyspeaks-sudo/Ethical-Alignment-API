@@ -100,10 +100,6 @@
     </nav>
 
     <!-- CTA Buttons -->
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ethical Alignment Test - Demo</title>
   <style>
@@ -200,7 +196,7 @@
     footer a { color: #8a2b1b; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
     
-    @media (max-width: 720px) {
+    media (max-width: 720px) {
       .container { padding: 16px; margin: 20px auto; }
       h1 { font-size: 24px; }
       .card { padding: 20px; }
@@ -221,7 +217,65 @@
     <textarea id="test-input" placeholder="Type or paste your content here to check Red Letter alignment..." rows="6" style="width: 100%; max-width: 600px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 14px;"></textarea>
     
     <div style="margin-top: 15px; margin-bottom: 20px;">
-        <button id="run-test-btn" onclick="executeLocalAlignmentTest()" style="background-color: #8B0000; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer;">Run Alignment Test</button>
+        <button id="run-test-btn" onclick="executeLocalAlignmentTest(<div id="alignment-test-container">
+    <h3>Run Alignment Test</h3>
+    <textarea id="test-input" placeholder="Enter text to test here..." rows="5" style="width: 100%; margin-bottom: 10px;"></textarea>
+    <br>
+    <button id="run-test-btn" onclick="evaluateAlignment()">Run Alignment Test</button>
+    
+    <div id="result-display" style="margin-top: 20px; font-weight: bold;">
+        <p>Result: <span id="alignment-score">*No test run yet.*</span></p>
+        <div id="protocol-breakdown"></div>
+    </div>
+</div>
+
+<script>
+function evaluateAlignment() {
+    const text = document.getElementById('test-input').value.trim();
+    if (!text) {
+        document.getElementById('alignment-score').innerText = "Please enter some text to test.";
+        return;
+    }
+
+    // Step 1: Define baseline ethical violations or negative indicators
+    // (e.g., words counter to the 5 protocols: murder, hate, cheat, lie, malice)
+    const violations = {
+        life: /kill|murder|harm|destroy|attack|hurt/i,
+        reciprocity: /exploit|cheat|steal|abuse|mock|bully/i,
+        love: /hate|despise|selfish|greed|malice/i,
+        mercy: /revenge|punish|retribution|avenge/i,
+        truth: /lie|deceive|manipulate|fraud|fake/i
+    };
+
+    let scores = { life: 100, reciprocity: 100, love: 100, mercy: 100, truth: 100 };
+    let violationCount = 0;
+
+    // Step 2: Evaluate strings against the protocol patterns
+    for (let protocol in violations) {
+        if (violations[protocol].test(text)) {
+            scores[protocol] = 30; // Drop score dramatically if an adversarial phrase is met
+            violationCount++;
+        }
+    }
+
+    // Step 3: Calculate composite overall score
+    const totalScore = Math.max(0, 100 - (violationCount * 20));
+
+    // Step 4: Render results directly to UI
+    document.getElementById('alignment-score').innerHTML = `<strong>${totalScore}% Aligned</strong>`;
+    
+    let breakdownHtml = "<h4>Protocol Breakdown:</h4><ul style='list-style-type: none; padding-left: 0;'>";
+    breakdownHtml += `<li>1. Sanctity of Life Protocol: ${scores.life}%</li>`;
+    breakdownHtml += `<li>2. Reciprocity Protocol (Golden Rule): ${scores.reciprocity}%</li>`;
+    breakdownHtml += `<li>3. Social Protocol (Law of Love): ${scores.love}%</li>`;
+    breakdownHtml += `<li>4. Conflict Protocol (Path of Mercy): ${scores.mercy}%</li>`;
+    breakdownHtml += `<li>5. Integrity Protocol (Absolute Truth): ${scores.truth}%</li>`;
+    breakdownHtml += "</ul>";
+    
+    document.getElementById('protocol-breakdown').innerHTML = breakdownHtml;
+}
+</script>)
+</style="background-color: #8B0000; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer;">Run Alignment Test</button>
         <button id="download-btn" style="background-color: #555; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 10px;">Developer Download</button>
     </div>
 
