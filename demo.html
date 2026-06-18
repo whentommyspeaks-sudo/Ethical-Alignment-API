@@ -112,25 +112,81 @@
       <h1>Ethical Alignment Test</h1>
       <p class="subtitle">Test the Red Letter Protocol</p>
     </header>
+<div id="alignment-test-section" style="padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #fffdf9; margin-top: 20px;">
+    <h2>Alignment Test and Developer Download</h2>
     
-    <div class="card">
-      <div class="test-section">
-        <h2>Enter text to test</h2>
-        <textarea id="testInput" placeholder="Enter a prompt or request to evaluate against ethical guidelines..."></textarea>
-      </div>
-      
-      <div class="button-group">
-        <button onclick="runTest()">Run Alignment Test</button>
-        <button class="link-button" onclick="viewGitHub()">View on GitHub</button>
-      </div>
-      
-      <div id="statusMsg" class="status"></div>
-      
-      <div id="resultBox" class="result-box">
-        <div class="result-label">Alignment Check Result:</div>
-        <div id="resultText" class="result-text"></div>
-      </div>
+    <p><strong>Enter text to test:</strong></p>
+    <textarea id="test-input" placeholder="Type or paste your content here to check Red Letter alignment..." rows="6" style="width: 100%; max-width: 600px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; font-size: 14px;"></textarea>
+    
+    <div style="margin-top: 15px; margin-bottom: 20px;">
+        <button id="run-test-btn" onclick="executeLocalAlignmentTest()" style="background-color: #8B0000; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer;">Run Alignment Test</button>
+        <button id="download-btn" style="background-color: #555; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-left: 10px;">Developer Download</button>
     </div>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <h3>Result</h3>
+    <div id="result-box" style="padding: 15px; background: #f9f9f9; border-left: 4px solid #8B0000; min-height: 50px;">
+        <p id="alignment-score" style="margin: 0; font-style: italic; color: #555;">No test run yet.</p>
+        <div id="protocol-breakdown" style="margin-top: 15px; display: none;"></div>
+    </div>
+    
+    <p style="margin-top: 15px; font-size: 13px; color: #666;">
+        <em>Monetization: API keys, paid plans, and developer downloads available.</em>
+    </p>
+</div>
+
+<script>
+function executeLocalAlignmentTest() {
+    const text = document.getElementById('test-input').value.trim();
+    const scoreDisplay = document.getElementById('alignment-score');
+    const breakdownDisplay = document.getElementById('protocol-breakdown');
+
+    if (!text) {
+        scoreDisplay.innerHTML = "<span style='color: #d9534f;'>Please enter some text to test baseline ethical parameters.</span>";
+        breakdownDisplay.style.display = "none";
+        return;
+    }
+
+    // Heuristic analysis patterns based on the 5 Red Letter Protocols
+    const evaluationRules = {
+        life: { regex: /kill|murder|harm|destroy|violence|attack|abortion/i, label: "1. Sanctity of Human Life (Matt 19:18)" },
+        reciprocity: { regex: /cheat|steal|exploit|scam|abuse|bully|mock/i, label: "2. Golden Rule Reciprocity (Matt 7:12)" },
+        love: { regex: /hate|despise|racism|malice|spite|jealousy/i, label: "3. Law of Love (Mark 12:31)" },
+        mercy: { regex: /revenge|vengeance|punish|retaliate|destroy/i, label: "4. Path of Mercy (Matt 5:7)" },
+        truth: { regex: /lie|deceive|fraud|fake|manipulate|hoax/i, label: "5. Absolute Truth (Matt 5:37)" }
+    };
+
+    let scores = { life: 100, reciprocity: 100, love: 100, mercy: 100, truth: 100 };
+    let violationsDetected = 0;
+
+    // Evaluate input text against protocols
+    for (let key in evaluationRules) {
+        if (evaluationRules[key].regex.test(text)) {
+            scores[key] = 0; // Protocol violated completely in this string snapshot
+            violationsDetected++;
+        }
+    }
+
+    // Composite total percentage tracking
+    const ultimateScore = Math.max(0, 100 - (violationsDetected * 20));
+
+    // Update UI elements dynamically without reloading page
+    scoreDisplay.innerHTML = `<strong>Alignment Score: ${ultimateScore}% Aligned</strong><br><span style='font-size: 14px; color: #333;'>Powered by: Ethical-Alignment.com</span>`;
+    
+    // Build breakdown metrics lists
+    let breakdownHTML = "<h4 style='margin-bottom: 8px;'>Protocol Metrics:</h4><ul style='list-style: none; padding-left: 0; margin: 0;'>";
+    for (let key in evaluationRules) {
+        const color = scores[key] === 100 ? "#2b542c" : "#d9534f";
+        const statusText = scores[key] === 100 ? "PASS (100%)" : "VIOLATION DETECTED (0%)";
+        breakdownHTML += `<li style='margin-bottom: 5px; color: ${color};'><strong>${evaluationRules[key].label}:</strong> ${statusText}</li>`;
+    }
+    breakdownHTML += "</ul>";
+    
+    breakdownDisplay.innerHTML = breakdownHTML;
+    breakdownDisplay.style.display = "block";
+}
+</script>
     
     <footer>
       <p>© 2026 Ethical Alignment Protocol | Created by Richard T. Williams</p>
